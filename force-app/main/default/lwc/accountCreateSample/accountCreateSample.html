@@ -1,0 +1,8 @@
+<template>
+    <lightning-card title="Account Creation">
+        <p class="slds-p-horisontal_small">           
+            <!-- <lightning-record-form> : 레코드를 추가 보기 또는 업데이트할 양식을 빠르게 생성 -->
+            <lightning-record-form object-api-name={objectApiName} fields ={fieldList} onsuccess={handleAccountCreate}></lightning-record-form>
+        </p>   
+    </lightning-card>
+</template>
