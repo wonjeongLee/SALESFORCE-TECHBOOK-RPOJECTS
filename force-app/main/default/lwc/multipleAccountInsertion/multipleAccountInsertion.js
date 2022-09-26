@@ -40,26 +40,30 @@ export default class MultipleRowInsertion extends LightningElement {
     //Save Accounts
      saveMultipleAccounts() {
 
-        console.log(this.accountRecList.length);
-        console.log(this.accountRecList.length == 0);
-        return;
-        if(this.accountRecList.length === 0){
+
+        // 한줄의 값이 있지만 값이 들어있을 경우
+        if(this.accountRecList.length === 1 && this.accountRecList[0].Name == '' ){
+            console.log("한줄의 값이 있지만 값이 들어있을 경우");
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'Error',
                     message: '값이 비어있습니다.',
-                    variant: 'success',
+                    variant: 'error',
                 }),
             );
+            return;
         }
-
-        for(let i=0 ; i<this.accountRecList.length; i++){
+        // 값이 안들어있는 경우 삭제
+        for(let i=1 ; i<this.accountRecList.length+1; i++){
+            console.log("값이 안들어있는 경우 삭제")
             if(this.accountRecList[i].Name == ''){
-                console.log("확인" + i);
+                console.log("값이 안들어있는 줄" + i);
                 this.emptyRemoveRow(i);
             }
         }
+        console.log("값 저장")
 
+        // 값 저장
         saveAccounts({ accountList : this.accountRecList })
             .then(result => {
                 this.message = result;
@@ -103,11 +107,17 @@ export default class MultipleRowInsertion extends LightningElement {
              this.keyIndex-1;
         }
     }  
+    //값이 비어있을 경우 , 골라서 삭제
     emptyRemoveRow(i){
-        if(i !== ''){
-            console.log("확인222");
-            this.accountRecList.splice(i-1,1);
-            this.keyIndex-1;
+        console.log(i);
+        console.log(this.accountRecList.length);
+        console.log("확인222");
+        this.accountRecList.splice(i,1);
+        //this.keyIndex-1;
+
+        console.log(this.accountRecList.length);
+        if(this.accountRecList.length > 1){
+            this.saveMultipleAccounts();
         }
     }
 
